@@ -7,6 +7,7 @@
 
 body{
     font-family: Arial, Helvetica, sans-serif;
+    background-color: rgb(248, 248, 248);
 }
 
 p{
@@ -41,8 +42,18 @@ h1{
 #encrypt-button {
     padding: 1rem;
     width: 100%;
-    cursor: pointer;
     font-size: 1.2rem;
+
+    border: none;
+    border-radius: 5px;
+
+    cursor: pointer;
+    background-color: rgb(34, 34, 250);
+    color: white;
+}
+
+#encrypt-button:hover{
+    background-color: rgb(14, 89, 187);
 }
 
 #word-counter > p {
@@ -60,8 +71,46 @@ h1{
 .page {
     width: 50vw;
     margin: auto;
-    padding: 1rem;
+    margin-bottom: 1rem;
+    padding: 1.1rem;
 
     border-radius: 5px;
     box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+}
+
+
+
+
+
+
+
+
+/* ---------------------------- HOME PAGE ---------------------------- */
+a{
+    text-decoration: none;
+    padding: 1rem;
+    cursor: pointer;
+    font-size: 1.2rem;
+
+
+    background-color: rgb(34, 34, 250);
+    color: white;
+
+    border-radius: 5px;
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+}
+
+a:hover {
+    background-color: rgb(14, 89, 187);
+}
+
+.options-container {
+    display: flex;
+    flex-direction: column;
+
+    text-align: center;
+}
+
+ul{
+    margin-left: 3rem;
 }
