@@ -24,6 +24,7 @@ function show_text_length_on_screen() {
 messageContainer.addEventListener("input", show_text_length_on_screen);
 
 
+/* ------------------------------------------------------------------------------------------- */
 
 
 
@@ -37,7 +38,10 @@ messageContainer.addEventListener("input", show_text_length_on_screen);
 
 
 
-/* ------------------------- ENCRYPTING THE MESSAGE ------------------------- */
+
+
+
+/* -------------------------------- ENCRYPTING THE MESSAGE ---------------------------------- */
 
 
 //function that converts each character on the string to a corresponding number
@@ -47,15 +51,31 @@ function convert_char_to_number() {
     let stringMessage = document.getElementById("message-box").value;
 
     //array containing the corresponding numbers
-    let messageWithNumbers = [];
+    let messageAsNumbers = [];
 
     //loops throught the string and converts the letters to numbers with the codePointAt method
     for (let i = 0; i < stringMessage.length; i++) {
-        messageWithNumbers.push(stringMessage.codePointAt(i));
+        messageAsNumbers.push(stringMessage.codePointAt(i));
     }
 
-    return messageWithNumbers;
+    return messageAsNumbers;
 }
+
+
+/* ------------------------------------------------------------------------------------------ */
+
+
+
+
+
+
+
+
+
+
+
+
+/* ----------------------------------- GENERATE KEY ----------------------------------- */
 
 
 /* Function that generates a randomNumber between 1 and 9 */
@@ -76,28 +96,88 @@ function generate_key() {
         for (let j = 0; j < messageContainer.value.length; j++) {
             columns.push(generate_number());    //create a column array on each iteration
         }
-        keyMatrix.push(columns);                //pushes the entire columns array into key matrix 
+        keyMatrix.push(columns);                //pushes the entire columns array into key matrix, after that i clear the column for the next iteration
     }
 
     return keyMatrix;
 }
 
 
-/* ------------------------- EXECUTION FUNCTION ------------------------- */
+/* ------------------------------------------------------------------------------------------ */
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* -------------------------------- PRODUCT OF MASSAGE x KEY -------------------------------- */
+
+//here i need to multiply messageAsNumbers X keyMatrix
+function message_times_key(message, key){
+
+    //this gives me the size of my message, so that i can use to loop throught my arrays and calculate the product of the message vs key
+    let size = messageContainer.value.length;
+
+    let finalMatrix = [];
+
+    for(let i = 0; i < size; i++){
+
+        let result = 0;
+
+        for(let j = 0; j < size; j++){
+            result += message[j] * key[j][i];
+        }
+        finalMatrix.push(result);
+    }
+
+    return finalMatrix;     //the message that will be display to the user as a response
+}
+
+
+/* ------------------------------------------------------------------------------------------ */
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* ----------------------------------- EXECUTION FUNCTION ----------------------------------- */
 
 /* Function that will be executed when the user enters a message and presses the encrypt button */
 function executionGo() {
-    const modalbody = document.getElementById("responseToUser");
+    //const modalbody = document.getElementById("responseToUser");
 
-    convert_char_to_number();
-    generate_key();
+    let message = convert_char_to_number();
+    let key = generate_key();
+
+    let response = message_times_key(message, key);
+
+    console.log(`Message = ${message}`);
+    console.log(`Key = ${key}`);
+    console.log(`Response = ${response}`);
 
 
-    modalbody.innerHTML = `Your numeric message is:\n <p>${convert_char_to_number()}</p>`;
-    modalbody.innerHTML += `\nThe key is:\n <p>${generate_key()}</p>`;
 
 }
 
 
-const encryptButton = document.getElementById("encrypt-button");
+const encryptButton = document.getElementById("test");
 encryptButton.addEventListener("click", executionGo);

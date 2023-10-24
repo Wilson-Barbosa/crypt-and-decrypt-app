@@ -114,3 +114,15 @@ a:hover {
 ul{
     margin-left: 3rem;
 }
+
+
+
+
+
+
+
+
+/* ---------------------------- MODAL RESPONSE ---------------------------- */
+#responseToUser{
+    overflow: scroll;
+}
