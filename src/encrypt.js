@@ -1,6 +1,7 @@
 /* ------------------------- UPDATES THE TEXT LENGTH ON THE SCREEN  ------------------------- */
 
 
+//this varible will be used quite a few times later, so I made it global
 let messageContainer = document.getElementById("message-box");
 
 /*Every time the textarea is update (any time it changes) the function bellow is called by the event*/
@@ -92,11 +93,13 @@ function generate_key() {
     /* the thing here is that I need to create a key matrix with n^2 elements
     where n is the lenght of my message */
     for (let i = 0; i < messageContainer.value.length; i++) {
+
         let columns = [];
+
         for (let j = 0; j < messageContainer.value.length; j++) {
-            columns.push(generate_number());    //create a column array on each iteration
+            columns.push(generate_number());    //create a row array on each iteration
         }
-        keyMatrix.push(columns);                //pushes the entire columns array into key matrix, after that i clear the column for the next iteration
+        keyMatrix.push(columns);  //pushes the entire row array into key matrix, after that i clear the row for the next iteration
     }
 
     return keyMatrix;
@@ -122,21 +125,23 @@ function generate_key() {
 /* -------------------------------- PRODUCT OF MASSAGE x KEY -------------------------------- */
 
 //here i need to multiply messageAsNumbers X keyMatrix
-function message_times_key(message, key){
+function message_times_key(message, key) {
 
     //this gives me the size of my message, so that i can use to loop throught my arrays and calculate the product of the message vs key
     let size = messageContainer.value.length;
 
+    //the result of this function will be stored here
     let finalMatrix = [];
 
-    for(let i = 0; i < size; i++){
+    /* The loop below mutiplies the message by the key and returns the result as a new matrix called finalMatrix */
+    for (let i = 0; i < size; i++) {
 
         let result = 0;
 
-        for(let j = 0; j < size; j++){
+        for (let j = 0; j < size; j++) {
             result += message[j] * key[j][i];
         }
-        finalMatrix.push(result);
+        finalMatrix.push(result);  //each internal iteration calculates one element of the final array
     }
 
     return finalMatrix;     //the message that will be display to the user as a response
@@ -174,10 +179,6 @@ function executionGo() {
     console.log(`Key = ${key}`);
     console.log(`Response = ${response}`);
 
-
-
 }
-
-
 const encryptButton = document.getElementById("test");
 encryptButton.addEventListener("click", executionGo);
