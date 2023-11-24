@@ -1,44 +1,5 @@
-/* ------------------------- UPDATES THE TEXT LENGTH ON THE SCREEN  ------------------------- */
-
-
-//this varible will be used quite a few times later, so I made it global
-let messageContainer = document.getElementById("message-box");
-
-/*Every time the textarea is update (any time it changes) the function bellow is called by the event*/
-function show_text_length_on_screen() {
-
-    let messageContent = messageContainer.value;    //takes the string within 
-    let charNumber = messageContent.length;         //calculates the length (including spaces) of said string
-
-    document.getElementById("current-counter").textContent = charNumber; //updates the value to the screen
-
-
-    //just a little touch of inline styling to change the color
-    if (charNumber === 150) {
-        document.getElementById("word-counter").style.color = "red";
-    } else {
-        document.getElementById("word-counter").style.color = "black";
-    }
-}
-
-//on input event listener
-messageContainer.addEventListener("input", show_text_length_on_screen);
-
-
-/* ------------------------------------------------------------------------------------------- */
-
-
-
-
-
-
-
-
-
-
-
-
-
+//since i'll be using this variable a couple of times throught my code i made it global
+const cpfInput = document.getElementById("cpf");
 
 
 
@@ -49,7 +10,7 @@ messageContainer.addEventListener("input", show_text_length_on_screen);
 function convert_char_to_number() {
 
     //user message string
-    let stringMessage = document.getElementById("message-box").value;
+    let stringMessage = cpfInput.value;
 
     //array containing the corresponding numbers
     let messageAsNumbers = [];
@@ -61,17 +22,6 @@ function convert_char_to_number() {
 
     return messageAsNumbers;
 }
-
-
-/* ------------------------------------------------------------------------------------------ */
-
-
-
-
-
-
-
-
 
 
 
@@ -90,45 +40,30 @@ function generate_key() {
 
     let keyMatrix = [];
 
-    /* the thing here is that I need to create a key matrix with n^2 elements
-    where n is the lenght of my message */
-    for (let i = 0; i < messageContainer.value.length; i++) {
+    for (let i = 0; i < cpfInput.value.length; i++) {
 
-        let columns = [];
+        //after each iteration the row array is cleared and filled again
+        let row = [];
 
-        for (let j = 0; j < messageContainer.value.length; j++) {
-            columns.push(generate_number());    //create a row array on each iteration
+        for (let j = 0; j < cpfInput.value.length; j++) {
+            row.push(generate_number());    //create a row array on each iteration
         }
-        keyMatrix.push(columns);  //pushes the entire row array into key matrix, after that i clear the row for the next iteration
+        keyMatrix.push(row);                //pushes the entire row array into key matrix, after that i clear the row for the next iteration
     }
 
     return keyMatrix;
 }
 
 
-/* ------------------------------------------------------------------------------------------ */
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 /* -------------------------------- PRODUCT OF MASSAGE x KEY -------------------------------- */
 
-//here i need to multiply messageAsNumbers X keyMatrix
+//here I need to multiply messageAsNumbers X keyMatrix
 function message_times_key(message, key) {
 
     //this gives me the size of my message, so that i can use to loop throught my arrays and calculate the product of the message vs key
-    let size = messageContainer.value.length;
+    const size = cpfInput.value.length;
 
     //the result of this function will be stored here
     let finalMatrix = [];
@@ -144,41 +79,103 @@ function message_times_key(message, key) {
         finalMatrix.push(result);  //each internal iteration calculates one element of the final array
     }
 
-    return finalMatrix;     //the message that will be display to the user as a response
+    return finalMatrix;            //the message that will be display to the user as a response
 }
 
 
-/* ------------------------------------------------------------------------------------------ */
+
+
+/* -------------------------------------- ERROR MESSAGE -------------------------------------- */
+
+//function that adds an error based on the type of parameter it receives
+function add_error_message(error) {
+
+    //grabbing the element 
+    const form = document.querySelector("form");
+
+    //creating a small tag and appeding some attributes to it 
+    let errorMessage = document.createElement("small");
+    errorMessage.id = "error";
+    errorMessage.innerText = error;
+    errorMessage.style.color = "red";
+
+    //adding the error message just bellow the cep input
+    form.insertBefore(errorMessage, cpfInput.nextSibling);
+}
 
 
 
 
+/* --------------------------------------- REMOVE ERROR --------------------------------------- */
+
+function remove_error_message() {
+
+    /* this searches the document and if it finds any small tags the code below is executed */
+    /* querySelectorAll returns a nodelist, so if a nodelist exists all small tags are removed */
+    if (document.querySelectorAll("small").length != 0) {
+        const form = document.querySelector("form");
+        const error = document.getElementById("error");
+        form.removeChild(error);
+    }
+
+}
 
 
 
 
+/* ----------------------------------------- ENCRYPT ----------------------------------------- */
+
+//function that actually encrypts the message
+function encrypt(){
+
+    const message = convert_char_to_number();                   //message converted to numbers
+    const key = generate_key();                                 //key matrix
+    const matrixProduct = message_times_key(message, key);    //product between the two matrices above
+
+    //transforms the product into a string
+    const matrixProductString = matrixProduct.join('');
+    
+    //transforms the key into a string
+    let keyString = '';
+    for(let i = 0; i < key.length; i++){
+        keyString += key[i].join('');
+    }
+
+    //concatenates both strings into a single message
+    const output = keyString + matrixProductString;
+
+    document.getElementById("code").innerText = output;
+
+}
 
 
 
-
-
-
-
-/* ----------------------------------- EXECUTION FUNCTION ----------------------------------- */
+/* ----------------------------------------- Execution ----------------------------------------- */
 
 /* Function that will be executed when the user enters a message and presses the encrypt button */
-function executionGo() {
-    //const modalbody = document.getElementById("responseToUser");
+function show_code() {
 
-    let message = convert_char_to_number();
-    let key = generate_key();
+    //this line is needed to clear the ouputBox content before a new execution
+    document.getElementById("code").innerText = '';
 
-    let response = message_times_key(message, key);
+    //in this line I ALWAYS remove all small (if any) element in the code (ALWAYS)
+    remove_error_message();
 
-    console.log(`Message = ${message}`);
-    console.log(`Key = ${key}`);
-    console.log(`Response = ${response}`);
+    //sends the appropriate output
+    if (cpfInput.value.length == 0) {
+
+        //treats an error for an empty input
+        add_error_message("Input is Empty");
+        return;
+    } else if (cpfInput.value.length < 10) {
+
+        //treats an error for an input smaller than 11 characters
+        add_error_message("Must contain exactly 11 characters");
+        return;
+    } else {
+
+        //sends the right response to the user
+        encrypt();
+    }
 
 }
-const encryptButton = document.getElementById("test");
-encryptButton.addEventListener("click", executionGo);
