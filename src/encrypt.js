@@ -133,7 +133,7 @@ function encrypt(){
     const matrixProduct = message_times_key(message, key);    //product between the two matrices above
 
     //transforms the product into a string
-    const matrixProductString = matrixProduct.join('');
+    let matrixProductString = matrixProduct.join('');
     
     //transforms the key into a string
     let keyString = '';
@@ -144,8 +144,7 @@ function encrypt(){
     //concatenates both strings into a single message
     const output = keyString + matrixProductString;
 
-    document.getElementById("code").innerText = output;
-
+    document.getElementById("codeOutput").innerText = output;
 }
 
 
@@ -156,7 +155,7 @@ function encrypt(){
 function show_code() {
 
     //this line is needed to clear the ouputBox content before a new execution
-    document.getElementById("code").innerText = '';
+    document.getElementById("codeOutput").innerText = '';
 
     //in this line I ALWAYS remove all small (if any) element in the code (ALWAYS)
     remove_error_message();
@@ -167,7 +166,7 @@ function show_code() {
         //treats an error for an empty input
         add_error_message("Input is Empty");
         return;
-    } else if (cpfInput.value.length < 10) {
+    } else if (cpfInput.value.length < 11) {
 
         //treats an error for an input smaller than 11 characters
         add_error_message("Must contain exactly 11 characters");
@@ -176,6 +175,16 @@ function show_code() {
 
         //sends the right response to the user
         encrypt();
+
+        //display the model on the screen
+        document.getElementById("modalCode").style.display = 'block';
     }
 
+}
+
+
+
+//function that closes the code modal
+function close_code_modal(){
+    document.getElementById("modalCode").style.display = 'none';
 }

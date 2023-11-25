@@ -76,7 +76,7 @@ button:active {
 #encryption > form {
     display: flex;
     flex-direction: column;
-    gap: 1.5rem
+    gap: 1.5rem;
 }
 
 #encryption > form > label {
@@ -88,7 +88,6 @@ button:active {
     text-align: center;
     width: 22rem;
     height: 5rem;
-
     font-size: 2.5rem;
 }
 
@@ -126,9 +125,68 @@ button:active {
 #decryption > form > textarea {
     width: 30rem;
     height: 8rem;
-
     padding: 1rem;
-
     font-size: 1.2rem;
 }
 
+/* --------------------------------- CPF modal ----------------------------------*/
+
+#modalCpf{
+    display: none;
+    position: fixed;
+    top: 38%;
+    left: 38%;
+    background-color: #FFFFFF;
+    padding: 2rem;
+}
+
+#modalCpf > form {
+    display: flex;
+    flex-direction: column;
+    gap: 0.7rem;
+
+    width: 22rem;
+    border-radius: 5px;
+
+}
+
+#modalCpf > form > p {
+    font-size: 2rem;
+    font-weight: 600;
+}
+
+#modalCpf > form > input {
+    text-align: center;
+    height: 5rem;
+    font-size: 2.5rem;
+}
+
+/* --------------------------------- CODE modal ----------------------------------*/
+
+#modalCode {
+    display: none;
+    position: fixed;
+    top: 28%;
+    left: 32%; 
+    width: 32rem;
+    border-radius: 5px;
+    padding: 2rem;
+    background-color: #FFFFFF;
+}
+
+#modalCode > form {
+    display: flex;
+    flex-direction: column;
+    gap: 0.7rem;
+}
+
+#modalCode > form > p {
+    font-size: 2rem;
+    font-weight: 600;
+}
+
+#modalCode > form > textarea{
+    height: 9rem;
+    padding: 1rem;
+    font-size: 1.2rem;
+}

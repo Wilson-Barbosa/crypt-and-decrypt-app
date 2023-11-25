@@ -49,8 +49,20 @@
     </main>
 
     <!-- Modals -->
-    <section>
+    <section id="modalCpf">
+        <form>
+            <p>Your CPF is:</p>
+            <input id="cpfOutput" type="text" readonly>
+            <button onclick="close_cpf_modal()">Close</button>
+        </form>
+    </section>
 
+    <section id="modalCode">
+        <form>
+            <p>Your code is:</p>
+            <textarea id="codeOutput" type="text" readonly></textarea>
+            <button onclick="close_code_modal()">Close</button>
+        </form>
     </section>
 
     <!-- JavaScript -->
