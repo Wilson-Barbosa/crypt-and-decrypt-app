@@ -29,13 +29,37 @@ function convert_char_to_number() {
 /* ----------------------------------- GENERATE KEY ----------------------------------- */
 
 
-/* Function that generates a randomNumber between 1 and 9 */
+//Function that generates a randomNumber between 1 and 9
 function generate_number() {
     return randomNumber = Math.floor(Math.random() * (9)) + 1;
 }
 
 
-/* function that generates a key matrix based on the size of the user's message */
+//this function generates calculates the determinant of a matrix
+function determinant(matrix) {
+    //if the matrix is 1x1, return the only element
+    if (matrix.length === 1) {
+        return matrix[0][0];
+    }
+
+    //if the matrix is 2x2, return the determinant using the formula
+    if (matrix.length === 2 && matrix[0].length === 2) {
+        return matrix[0][0] * matrix[1][1] - matrix[0][1] * matrix[1][0];
+    }
+
+    let det = 0;
+
+    //now to calculate it using recursion 
+    for (let j = 0; j < matrix.length; j++) {
+        const submatrix = matrix.slice(1).map(row => row.slice(0, j).concat(row.slice(j + 1)));
+        det += (j % 2 === 0 ? 1 : -1) * matrix[0][j] * determinant(submatrix);
+    }
+
+    return det;
+}
+
+
+//function that generates a key matrix based on the size of the user's message
 function generate_key() {
 
     let keyMatrix = [];
@@ -51,7 +75,13 @@ function generate_key() {
         keyMatrix.push(row);                //pushes the entire row array into key matrix, after that i clear the row for the next iteration
     }
 
-    return keyMatrix;
+    //this piece ensures that the key always has a invertible
+    if(determinant(keyMatrix) != 0){
+        return keyMatrix;
+    } else {
+        generate_key();
+    }
+
 }
 
 
@@ -126,7 +156,7 @@ function remove_error_message() {
 /* ----------------------------------------- ENCRYPT ----------------------------------------- */
 
 //function that actually encrypts the message
-function encrypt(){
+function encrypt() {
 
     const message = convert_char_to_number();                   //message converted to numbers
     const key = generate_key();                                 //key matrix
@@ -134,17 +164,20 @@ function encrypt(){
 
     //transforms the product into a string
     let matrixProductString = matrixProduct.join('');
-    
+
     //transforms the key into a string
     let keyString = '';
-    for(let i = 0; i < key.length; i++){
+    for (let i = 0; i < key.length; i++) {
         keyString += key[i].join('');
     }
 
     //concatenates both strings into a single message
     const output = keyString + matrixProductString;
 
+    //sends the result to the the screen
     document.getElementById("codeOutput").innerText = output;
+
+    console.log(matrixProduct);
 }
 
 
@@ -185,6 +218,6 @@ function show_code() {
 
 
 //function that closes the code modal
-function close_code_modal(){
+function close_code_modal() {
     document.getElementById("modalCode").style.display = 'none';
 }
