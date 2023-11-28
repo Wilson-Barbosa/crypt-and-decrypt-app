@@ -21,15 +21,19 @@ button {
     border: none;
     border-radius: 5px;
 
-    background-color: #008000;
+    background-color: #3C3C3C;
     color: #ffffff;
 
     box-shadow: 3px 3px 3px #808080;
     cursor: pointer;
 }
 
+button:hover {
+    background-color: #000000;
+}
+
 button:active {
-    background-color: #00ac00;
+    background-color: #3B50E3;
 }
 
 
@@ -40,43 +44,79 @@ button:active {
     color: #ffffff;
 
     width: 100%;
-    height: 100vh;
+    height: 200vh;
 
     padding: 4rem;
 }
 
 #introduction > h1 {
+    text-align: center;
     font-size: 6.3rem;
-    margin-top: 5rem;
+    margin-top: 10rem;
 }
 
+#introduction > h1::after {
+    content: '|';
+    margin-left: 5px;
+    opacity: 1;
+    animation: blink .7s infinite;
+
+}
+
+@keyframes blink{
+    0%, 100%{
+        opacity: 1;
+    }
+    50%{
+        opacity: 0;
+    }
+}
+
+#introduction .redline{
+    
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    min-height: 180vh;
+    text-align: flex-start;
+    margin-top: 7rem;
+    font-size: 2.5em;
+    gap: 50px;
+}
 #introduction > p {
-    font-size: 1.7rem;
-    margin-top: 2rem;
+    font-size: 2.2em;
+    
     margin-left: 2rem;
 }
 
 
 /* --------------------------------- Encryption ----------------------------------*/
 #encryption {
-    background-color: #f7c486;
+    color: white;
     width: 100%;
-    height: 50vh;
+    height: 70vh;
 
     display: flex;
     flex-direction: row;
     align-items: center;
     justify-content: space-around;
+    background-image: linear-gradient(to right top, #48468b, #3d3c7f, #323273, #272967, #1c205c);
+    
 }
 
 #encryption > div {
-    font-size: 1.4rem;
+    max-width: 500px;
+    font-size: 1.6rem;
+    font-family: sans-serif;
+    
 }
 
 #encryption > form {
     display: flex;
+    max-width: 500px;
     flex-direction: column;
     gap: 1.5rem;
+    
 }
 
 #encryption > form > label {
@@ -86,15 +126,15 @@ button:active {
 
 #encryption > form > input {
     text-align: center;
-    width: 22rem;
-    height: 5rem;
+    width: 450px;
+    height: 10vh;
     font-size: 2.5rem;
 }
 
 
 /* --------------------------------- Decryption ----------------------------------*/
 #decryption {
-    background-color: #ffe4c4;
+    color: white;
     width: 100%;
     height: 60vh;
 
@@ -102,6 +142,9 @@ button:active {
     flex-direction: row;
     align-items: center;
     justify-content: space-around;
+
+    background-image: linear-gradient(to right top, #48468b, #3d3c7f, #323273, #272967, #1c205c);
+    
 }
 
 #decryption > div {

@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="/styles/style.css">
-    <title>Document</title>
+    <title>Encoder</title>
 </head>
 
 <body>
@@ -14,36 +14,39 @@
     <main>
         <!-- Intro -->
         <section id="introduction">
-            <h1>Welcome to our app</h1>
-            <p>This application was made as the final project for the Linear Programming and Applications class, taught by our professor Maria Margarida Massignan.</p>
-            <p>This application was built by Fernanda Sato, Rafael Freire and Wilson Barbosa.</p>
+            <h1 id="title">Bem-vindo ao Encoder App </h1>
+            <div class="redline">
+                <p>Esta aplicação foi desenvolvida como um projeto final da matéria de Programação Linear e Aplicações, ministrada pela nossa professora Maria Margarida Massignan.</p>
+
+                <p>Desenvolvido por: Fernanda Sato, Rafael Freire e Wilson Barbosa.</p>
+            </div>
         </section>
 
         <!-- Encrypt -->
         <section id="encryption">
             <div>
-                <h3>Do you have a CPF?</h3>
-                <p>Type your CPF on the box!</p>
-                <p>Our app will generate a code with your CPF encprypted!</p>
+                <h3>Codificar CPF</h3>
+                <p>Digite o CPF desejado:</p>
+                <p>Nosso App irá transformar seu CPF em um código criptogrado</p>
             </div>
             <form>
                 <label for="cpf">CPF:</label>
                 <input type="text" id="cpf" maxlength="11">
-                <button type="button" onclick="show_code()">Encrypt</button>
+                <button type="button" onclick="show_code()">Criptografar</button>
             </form>
         </section>
 
         <!-- Decrypt -->
         <section id="decryption">
             <form>
-                <label for="code">Code:</label>
+                <label for="code">Código:</label>
                 <textarea type="text" id="code"></textarea>
-                <button type="button" onclick="show_cpf()">Decrypt</button>
+                <button type="button" onclick="show_cpf()">Descriptografar</button>
             </form>
             <div>
-                <h3>Do you have a CODE?</h3>
-                <p>If you already have a code you can decrypt it here!</p>
-                <p>Just type it on the box and our app will generate the CPF from which the code was created from!</p>
+                <h3>Você já possui uma chave?</h3>
+                <p>Se você já possui uma mensagem criptograda e deseja realizar o processo inverso</p>
+                <p>basta colocar a menasgem criptograda que faremos o processo de descodificação.</p>
             </div>
         </section>
     </main>
@@ -51,24 +54,29 @@
     <!-- Modals -->
     <section id="modalCpf">
         <form>
-            <p>Your CPF is:</p>
+            <p>Seu CPF é:</p>
             <input id="cpfOutput" type="text" readonly>
-            <button onclick="close_cpf_modal()">Close</button>
+            <button onclick="close_cpf_modal()">Fechar</button>
         </form>
     </section>
 
     <section id="modalCode">
         <form>
-            <p>Your code is:</p>
+            <p>Seu Código é:</p>
             <textarea id="codeOutput" type="text" readonly></textarea>
-            <button onclick="close_code_modal()">Close</button>
+            <button onclick="close_code_modal()">Fechar</button>
         </form>
     </section>
 
-    <!-- JavaScript -->
-    <script src="./src/encrypt.js"></script>
-    <script src="./src/decrypt.js"></script>
+    
 
 </body>
 
+    <!-- JavaScript -->
+    <script type="module" src="./src/animation.js"></script>
+    <script src="./src/encrypt.js"></script>
+    <script src="./src/decrypt.js"></script>
+        
+
+        
 </html>
