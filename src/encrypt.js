@@ -2,9 +2,7 @@
 const cpfInput = document.getElementById("cpf");
 
 
-
-/* -------------------------------- ENCRYPTING THE MESSAGE ---------------------------------- */
-
+/* -------------------------------- Transforming CPF to number ---------------------------------- */
 
 //function that converts each character on the string to a corresponding number
 function convert_char_to_number() {
@@ -19,48 +17,31 @@ function convert_char_to_number() {
     for (let i = 0; i < stringMessage.length; i++) {
         messageAsNumbers.push(stringMessage.codePointAt(i));
     }
-
+    
     return messageAsNumbers;
 }
 
 
-
-
-/* ----------------------------------- GENERATE KEY ----------------------------------- */
-
+/* ----------------------------------- Generate key ----------------------------------- */
 
 //Function that generates a randomNumber between 1 and 9
 function generate_number() {
     return randomNumber = Math.floor(Math.random() * (9)) + 1;
 }
 
-
-//this function generates calculates the determinant of a matrix
-function determinant(matrix) {
-    //if the matrix is 1x1, return the only element
-    if (matrix.length === 1) {
-        return matrix[0][0];
-    }
-
-    //if the matrix is 2x2, return the determinant using the formula
-    if (matrix.length === 2 && matrix[0].length === 2) {
-        return matrix[0][0] * matrix[1][1] - matrix[0][1] * matrix[1][0];
-    }
-
-    let det = 0;
-
-    //now to calculate it using recursion 
-    for (let j = 0; j < matrix.length; j++) {
-        const submatrix = matrix.slice(1).map(row => row.slice(0, j).concat(row.slice(j + 1)));
-        det += (j % 2 === 0 ? 1 : -1) * matrix[0][j] * determinant(submatrix);
-    }
-
-    return det;
-}
-
-
 //function that generates a key matrix based on the size of the user's message
 function generate_key() {
+
+    //calculates the determinant
+    const determinant = m =>
+        m.length == 1 ?
+            m[0][0] :
+            m.length == 2 ?
+                m[0][0] * m[1][1] - m[0][1] * m[1][0] :
+                m[0].reduce((r, e, i) =>
+                    r + (-1) ** (i + 2) * e * determinant(m.slice(1).map(c =>
+                        c.filter((_, j) => i != j))), 0);
+
 
     let keyMatrix = [];
 
@@ -76,18 +57,17 @@ function generate_key() {
     }
 
     //this piece ensures that the key always has a invertible
-    if(determinant(keyMatrix) != 0){
+    if (determinant(keyMatrix) != 0) {
         return keyMatrix;
     } else {
         generate_key();
     }
 
+
 }
 
 
-
-
-/* -------------------------------- PRODUCT OF MASSAGE x KEY -------------------------------- */
+/* -------------------------------- Product of message X key -------------------------------- */
 
 //here I need to multiply messageAsNumbers X keyMatrix
 function message_times_key(message, key) {
@@ -108,14 +88,12 @@ function message_times_key(message, key) {
         }
         finalMatrix.push(result);  //each internal iteration calculates one element of the final array
     }
-
+    
     return finalMatrix;            //the message that will be display to the user as a response
 }
 
 
-
-
-/* -------------------------------------- ERROR MESSAGE -------------------------------------- */
+/* -------------------------------------- Error message -------------------------------------- */
 
 //function that adds an error based on the type of parameter it receives
 function add_error_message(error) {
@@ -134,9 +112,7 @@ function add_error_message(error) {
 }
 
 
-
-
-/* --------------------------------------- REMOVE ERROR --------------------------------------- */
+/* --------------------------------------- Remove error --------------------------------------- */
 
 function remove_error_message() {
 
@@ -151,9 +127,7 @@ function remove_error_message() {
 }
 
 
-
-
-/* ----------------------------------------- ENCRYPT ----------------------------------------- */
+/* ----------------------------------------- Encrypt CPF ----------------------------------------- */
 
 //function that actually encrypts the message
 function encrypt() {
@@ -161,6 +135,9 @@ function encrypt() {
     const message = convert_char_to_number();                   //message converted to numbers
     const key = generate_key();                                 //key matrix
     const matrixProduct = message_times_key(message, key);    //product between the two matrices above
+
+    //console.log(key);
+    console.log(message);
 
     //transforms the product into a string
     let matrixProductString = matrixProduct.join('');
@@ -177,9 +154,8 @@ function encrypt() {
     //sends the result to the the screen
     document.getElementById("codeOutput").innerText = output;
 
-    console.log(matrixProduct);
-}
 
+}
 
 
 /* ----------------------------------------- Execution ----------------------------------------- */
@@ -214,7 +190,6 @@ function show_code() {
     }
 
 }
-
 
 
 //function that closes the code modal
