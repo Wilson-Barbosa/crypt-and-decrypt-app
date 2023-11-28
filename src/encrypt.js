@@ -173,12 +173,12 @@ function show_code() {
     if (cpfInput.value.length == 0) {
 
         //treats an error for an empty input
-        add_error_message("Input is Empty");
+        add_error_message("Input está vazio");
         return;
     } else if (cpfInput.value.length < 11) {
 
         //treats an error for an input smaller than 11 characters
-        add_error_message("Must contain exactly 11 characters");
+        add_error_message("Deve conter exatamente 11 caracteres");
         return;
     } else {
 
